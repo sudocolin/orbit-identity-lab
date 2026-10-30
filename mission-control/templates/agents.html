@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block nav %}{% include "_nav.html" %}{% endblock %}
+{% block content %}
+<div class="panel">
+  <h2>Agent crew <span class="badge r-fd">Flight Director view</span></h2>
+  <p class="muted" style="margin-top:-6px">Read live from Entra ID. Every agent has its own identity, a human sponsor, and only the roles its job needs. When a sponsor leaves, the lifecycle engine suspends their agents.</p>
+  {% if error %}<div class="alert">{{ error }}</div>{% endif %}
+  {% if roster %}
+  <table>
+    <tr><th>Agent</th><th>Sponsor</th><th>Roles</th><th>Last seen (UTC)</th><th>Status</th></tr>
+    {% for a in roster %}
+    <tr class="{{ '' if a.enabled else 'inactive' }}">
+      <td>{{ a.name }}<div class="muted small mono">{{ a.app_id }}</div></td>
+      <td class="mono">{{ a.sponsor or '—' }}</td>
+      <td class="small">{% for r in a.roles %}<div class="mono">{{ r }}</div>{% else %}<span class="muted">not seen yet</span>{% endfor %}</td>
+      <td class="mono small nowrap">{{ a.last_seen or "—" }}</td>
+      <td>{% if a.enabled %}<span class="badge on">Active</span>{% else %}<span class="badge off">Suspended</span>{% if a.notes %}<div class="muted small">{{ a.notes }}</div>{% endif %}{% endif %}</td>
+    </tr>
+    {% endfor %}
+  </table>
+  {% elif not error %}<p class="muted">No agents are registered yet.</p>{% endif %}
+</div>
+<div class="panel">
+  <h2>Agent activity</h2>
+  <table>
+    <tr><th>Time (UTC)</th><th>Agent</th><th>Event</th><th>Detail</th></tr>
+    {% for e in events %}
+    <tr class="{{ 'denied' if e.action == 'AgentDenied' else '' }}">
+      <td class="mono small nowrap">{{ e.ts }}</td><td>{{ e.user_name }}</td>
+      <td>{% if e.action == 'AgentDenied' %}<span class="bad">Denied</span>{% elif e.action == 'AgentProposed' %}<span class="warn">Proposed</span>{% else %}<span class="ok">Allowed</span>{% endif %}</td>
+      <td class="mono small">{{ e.detail }}</td>
+    </tr>
+    {% else %}<tr><td colspan="4" class="muted">No agent activity yet.</td></tr>{% endfor %}
+  </table>
+</div>
+{% endblock %}

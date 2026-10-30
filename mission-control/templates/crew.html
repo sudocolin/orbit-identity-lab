@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block nav %}{% include "_nav.html" %}{% endblock %}
+{% block content %}
+<div class="panel">
+  <h2>Crew with Mission Control accounts</h2>
+  <p class="muted" style="margin-top:-6px">Created, updated and deactivated automatically by Entra ID provisioning (SCIM). Nobody adds accounts here by hand.</p>
+  <table>
+    <tr><th>Name</th><th>Title</th><th>Team</th><th>Account</th><th>Status</th></tr>
+    {% for p in people %}
+    <tr class="{{ '' if p.active else 'inactive' }}">
+      <td>{{ p.display_name }}</td><td>{{ p.title or '' }}</td><td>{{ p.department or '' }}</td><td class="mono">{{ p.user_name }}</td>
+      <td><span class="badge {{ 'on' if p.active else 'off' }}">{{ 'Active' if p.active else 'Deactivated' }}</span></td>
+    </tr>
+    {% endfor %}
+  </table>
+</div>
+{% if events %}
+<div class="panel">
+  <h2>Provisioning activity <span class="badge r-fd">Flight Director view</span></h2>
+  <table>
+    <tr><th>Time (UTC)</th><th>Event</th><th>Account</th><th>Detail</th></tr>
+    {% for e in events %}<tr><td class="mono">{{ e.ts }}</td><td>{{ e.action }}</td><td class="mono">{{ e.user_name }}</td><td>{{ e.detail }}</td></tr>{% endfor %}
+  </table>
+</div>
+{% endif %}
+{% endblock %}

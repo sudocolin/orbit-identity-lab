@@ -1,0 +1,49 @@
+{
+  "_comment": "Birthright access model for Meridian Orbital. The JML engine owns ONLY the groups listed here and never touches any other membership. No privileged/admin group is birthright: admin rights are granted just-in-time (PIM).",
+  "baseline": [
+    "GG-All-Crew"
+  ],
+  "departments": {
+    "Executive": {
+      "groups": ["GG-Executive", "APP-MissionControl-Viewers"]
+    },
+    "Mission Ops": {
+      "ou": "MissionOps",
+      "groups": ["GG-MissionOps", "APP-MissionControl-Operators", "FS-Telemetry-Read"]
+    },
+    "Flight Software": {
+      "ou": "FlightSoftware",
+      "groups": ["GG-FlightSoftware", "APP-MissionControl-Viewers", "FS-FlightCode-Modify"]
+    },
+    "Ground Systems": {
+      "ou": "GroundSystems",
+      "groups": ["GG-GroundSystems", "APP-MissionControl-Operators", "FS-Telemetry-Read"]
+    },
+    "Payload Science": {
+      "ou": "PayloadScience",
+      "groups": ["GG-PayloadScience", "APP-MissionControl-Viewers", "FS-Telemetry-Read"]
+    },
+    "IT": {
+      "groups": ["GG-IT", "FS-IT-Modify"]
+    },
+    "Finance": {
+      "groups": ["GG-Finance", "FS-Finance-Modify"]
+    }
+  },
+  "titleRules": [
+    {
+      "match": "Chief|Director|Lead|Manager|Head",
+      "groups": ["GG-People-Leads"]
+    },
+    {
+      "match": "Flight Director|Director of Mission Operations",
+      "departments": ["Mission Ops"],
+      "groups": ["APP-MissionControl-FlightDirectors"]
+    },
+    {
+      "match": "^Payroll",
+      "departments": ["Finance"],
+      "groups": ["FS-Payroll-Modify"]
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+﻿   {
+    "_comment":  "Agent register: every AI agent at Meridian Orbital, its job, its human sponsor, and the roles it needs. Register-OrbitAgents.ps1 fills in appId and servicePrincipalId. The JML engine suspends an agent when its sponsor leaves.",
+    "agents":  [
+                   {
+                       "name":  "ATLAS",
+                       "purpose":  "Watches satellite telemetry overnight and flags anomalies.",
+                       "sponsorEmployeeId":  "E1006",
+                       "roles":  [
+                                     "Agent.Telemetry.Read"
+                                 ],
+                       "appId":  "7dd01f9c-0bd1-437b-a33c-45fe76d709d4",
+                       "servicePrincipalId":  "2b67a211-cdcc-45c1-ae1c-496c989a0833"
+                   },
+                   {
+                       "name":  "VEGA",
+                       "purpose":  "Drafts satellite commands for a human Flight Director to approve.",
+                       "sponsorEmployeeId":  "E1009",
+                       "roles":  [
+                                     "Agent.Telemetry.Read",
+                                     "Agent.Commands.Propose"
+                                 ],
+                       "appId":  "e968a8ea-4736-4b0b-8006-6024257c1cfd",
+                       "servicePrincipalId":  "d69f9ac0-7f5f-4623-94e2-8265fc9a6459"
+                   },
+                   {
+                       "name":  "HERMES",
+                       "purpose":  "Writes the morning mission brief with a local LLM (Ollama).",
+                       "sponsorEmployeeId":  "E1014",
+                       "roles":  [
+                                     "Agent.Telemetry.Read"
+                                 ],
+                       "appId":  "339d5c2a-39ab-4e6e-85d5-7f69c6a92e35",
+                       "servicePrincipalId":  "0c7a9b82-0a31-4962-b3a4-7c4ee87e9e88"
+                   }
+               ]
+}

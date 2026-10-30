@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}Mission Control{% endblock %}</title>
+<style>
+  :root { --bg:#070b14; --panel:#0e1524; --line:#1d2a42; --ink:#e6ecf7; --muted:#8693ad; --cyan:#39d0ff; --amber:#ffb547; --ok:#3ddc97; --bad:#ff6b6b; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:radial-gradient(1200px 600px at 80% -10%, #12234a 0%, var(--bg) 55%); color:var(--ink);
+         font-family:"Segoe UI", system-ui, -apple-system, sans-serif; font-size:16px; min-height:100vh; }
+  header { display:flex; align-items:center; gap:18px; padding:16px 30px; border-bottom:1px solid var(--line); background:rgba(7,11,20,.7); }
+  .logo { width:30px; height:30px; border-radius:50%; border:2px solid var(--cyan); position:relative; }
+  .logo:after { content:""; position:absolute; width:8px; height:8px; border-radius:50%; background:var(--amber); top:-5px; right:2px; }
+  .brand { font-weight:700; letter-spacing:.6px; }
+  .org { color:var(--muted); font-size:13px; }
+  header nav { margin-left:auto; display:flex; gap:20px; }
+  header a { color:var(--ink); text-decoration:none; font-size:15px; }
+  header a:hover { color:var(--cyan); }
+  main { max-width:1080px; margin:30px auto; padding:0 24px; }
+  .panel { background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:22px 26px; margin-bottom:22px; }
+  h1 { font-size:26px; margin:0 0 6px; }
+  h2 { font-size:14px; margin:0 0 14px; color:var(--muted); text-transform:uppercase; letter-spacing:1.4px; }
+  .muted { color:var(--muted); }
+  .mono { font-family:Consolas, "Cascadia Mono", monospace; }
+  .badge { display:inline-block; padding:3px 11px; border-radius:999px; font-size:13px; font-weight:600; vertical-align:middle; }
+  .r-fd { background:rgba(255,181,71,.14); color:var(--amber); border:1px solid rgba(255,181,71,.45); }
+  .r-op { background:rgba(57,208,255,.12); color:var(--cyan); border:1px solid rgba(57,208,255,.4); }
+  .r-view { background:rgba(134,147,173,.15); color:#c3cbdc; border:1px solid rgba(134,147,173,.4); }
+  .ok { color:var(--ok); } .warn { color:var(--amber); } .bad { color:var(--bad); }
+  .on { background:rgba(61,220,151,.12); color:var(--ok); } .off { background:rgba(255,107,107,.12); color:var(--bad); }
+  table { width:100%; border-collapse:collapse; font-size:15px; }
+  th { text-align:left; color:var(--muted); font-weight:600; font-size:12px; text-transform:uppercase; letter-spacing:1px; padding:8px 10px; border-bottom:1px solid var(--line); }
+  td { padding:12px 10px; border-bottom:1px solid var(--line); }
+  tr.inactive td { color:#5a6680; }
+  .verify { display:flex; gap:10px; align-items:center; font-size:14px; color:var(--muted); margin-top:14px; }
+  .pulse { width:9px; height:9px; border-radius:50%; background:var(--ok); box-shadow:0 0 0 0 rgba(61,220,151,.6); animation:p 2s infinite; }
+  @keyframes p { 70% { box-shadow:0 0 0 9px rgba(61,220,151,0); } 100% { box-shadow:0 0 0 0 rgba(61,220,151,0); } }
+  .alert { border:1px solid rgba(255,181,71,.45); background:rgba(255,181,71,.08); color:var(--amber); padding:12px 16px; border-radius:10px; margin-bottom:14px; }
+  .r-agent { background:rgba(178,132,255,.14); color:#c9a7ff; border:1px solid rgba(178,132,255,.45); }
+  .small { font-size:13px; } .nowrap { white-space:nowrap; } .inline { display:inline-flex; gap:8px; margin:0; }
+  .btn-sm { font:inherit; font-size:13px; font-weight:700; padding:5px 14px; border-radius:6px; border:1px solid; cursor:pointer; background:transparent; }
+  .btn-sm.go { color:var(--ok); border-color:rgba(61,220,151,.5); } .btn-sm.go:hover { background:rgba(61,220,151,.12); }
+  .btn-sm.nogo { color:var(--bad); border-color:rgba(255,107,107,.5); } .btn-sm.nogo:hover { background:rgba(255,107,107,.12); }
+  tr.denied td { background:rgba(255,107,107,.06); }
+  .btn { display:inline-block; background:var(--cyan); color:#04121c; padding:12px 24px; border-radius:8px; text-decoration:none; font-weight:700; }
+  .center { text-align:center; padding:60px 28px; }
+  footer { text-align:center; color:#4f5b74; font-size:12px; margin:36px 0 28px; }
+</style>
+</head>
+<body>
+<header>
+  <div class="logo"></div>
+  <div><div class="brand">MISSION CONTROL</div><div class="org">Meridian Orbital (fictional)</div></div>
+  {% block nav %}{% endblock %}
+</header>
+<main>{% block content %}{% endblock %}</main>
+<footer>Sign-in by Microsoft Entra ID · accounts provisioned by SCIM · lab demo, all data fictional</footer>
+</body>
+</html>

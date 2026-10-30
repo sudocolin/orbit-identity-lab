@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block nav %}{% include "_nav.html" %}{% endblock %}
+{% block content %}
+{% set rc = 'r-fd' if role == 'Flight Director' else ('r-op' if role == 'Operator' else 'r-view') %}
+<div class="panel">
+  <h1>{{ record.display_name or record.user_name }} <span class="badge {{ rc }}">{{ role }}</span></h1>
+  <div class="muted">{{ record.title or "" }}{% if record.department %} · {{ record.department }}{% endif %} · <span class="mono">{{ record.user_name }}</span></div>
+  <div class="verify"><span class="pulse"></span>Session re-verified with Entra ID every {{ every }}s · last check {{ checked }}s ago</div>
+</div>
+
+<div class="panel">
+  <h2>Fleet status</h2>
+  <table>
+    <tr><th>Sat</th><th>Name</th><th>Mission</th><th>Status</th><th>Battery</th><th>Next pass</th><th>Station</th></tr>
+    {% for s in fleet %}
+    <tr><td class="mono">{{ s.id }}</td><td>{{ s.name }}</td><td>{{ s.mission }}</td>
+      <td class="{{ 'ok' if s.status == 'Nominal' else ('bad' if s.status == 'Safe mode' else 'warn') }}">{{ s.status }}</td>
+      <td class="mono">{{ s.battery }}</td><td class="mono">{{ s.next_pass }}</td><td>{{ s.station }}</td></tr>
+    {% endfor %}
+  </table>
+</div>
+
+{% if commands %}
+<div class="panel">
+  <h2>Command queue</h2>
+  {% if role == 'Flight Director' and waiting %}<div class="alert">{{ waiting }} command{{ 's are' if waiting != 1 else ' is' }} waiting for your go / no-go.</div>{% endif %}
+  <table>
+    <tr><th>ID</th><th>Target</th><th>Command</th><th>Proposed by</th><th>State</th></tr>
+    {% for c in commands %}
+    <tr><td class="mono">{{ c.id }}</td><td>{{ c.target }}</td>
+      <td>{{ c.action }}{% if c.rationale %}<div class="muted small">{{ c.rationale }}</div>{% endif %}</td>
+      <td>{{ c.proposed_by }}{% if c.proposer_type == 'agent' %} <span class="badge r-agent">AI agent</span>{% endif %}</td>
+      <td>
+        {% if c.state == 'Awaiting Flight Director' %}
+          {% if role == 'Flight Director' %}
+          <form method="post" action="/commands/{{ c.id }}/decide" class="inline">
+            <input type="hidden" name="csrf" value="{{ csrf }}">
+            <button name="decision" value="approve" class="btn-sm go">Go</button>
+            <button name="decision" value="reject" class="btn-sm nogo">No-go</button>
+          </form>
+          {% else %}<span class="warn">Awaiting Flight Director</span>{% endif %}
+        {% elif c.state == 'Approved' %}<span class="ok">Approved</span> <span class="muted small">by {{ c.decided_by }}</span>
+        {% else %}<span class="bad">Rejected</span> <span class="muted small">by {{ c.decided_by }}</span>{% endif %}
+      </td></tr>
+    {% endfor %}
+  </table>
+</div>
+{% else %}
+<div class="panel muted">Viewer access: fleet status only. The command queue is limited to Operators and Flight Directors.</div>
+{% endif %}
+{% endblock %}

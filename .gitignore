@@ -1,0 +1,23 @@
+# Local config (tenant IDs, thumbprints)
+jml/config/settings.json
+
+# Run artifacts
+jml/logs/
+jml/out/
+
+# Certificates and keys
+*.pfx
+*.cer
+*.key
+*.pem
+
+# Mission Control
+mission-control/.env
+mission-control/*.db
+mission-control/.venv/
+__pycache__/
+.pytest_cache/
+
+# Agents: private keys never leave the machine that runs the agent
+mission-control/agents/certs/
+mission-control/agents/out/

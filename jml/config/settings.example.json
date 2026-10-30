@@ -1,0 +1,15 @@
+{
+  "_comment": "Copy to settings.json (git-ignored) and edit. OU paths must match Initialize-LabDirectory.ps1 output.",
+  "searchBase": "OU=Orbit,DC=lab,DC=local",
+  "usersOu": "OU=Crew,OU=Orbit,DC=lab,DC=local",
+  "disabledOu": "OU=Disabled Crew,OU=Orbit,DC=lab,DC=local",
+  "groupsOu": "OU=Groups,OU=Orbit,DC=lab,DC=local",
+  "upnSuffix": "CHANGEME.onmicrosoft.com",
+  "company": "Meridian Orbital (fictional)",
+  "maxLeaverPercent": 10,
+  "graph": {
+    "tenantId": "00000000-0000-0000-0000-000000000000",
+    "clientId": "00000000-0000-0000-0000-000000000000",
+    "certificateThumbprint": "CHANGEME"
+  }
+}
